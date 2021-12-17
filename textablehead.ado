@@ -24,7 +24,7 @@ program define textablehead
 	syntax using/ , ncols(real) [ coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert parse(str)] 
+					LANDscape INVert parse(str) NOCaption] 
 	
 	if "`parse'"==""{ 
 		tokenize "`coltitles'"
@@ -78,7 +78,12 @@ program define textablehead
 	
 	*I write the title
 	if "`title'"!=""{
-		writeln `using' "\caption{`title'}"
+		if "`nocaption'"==""{
+			writeln `using' "\caption{`title'}"
+		}
+		else {
+			writeln `using' "\caption*{`title'}"
+		}
 	}
 	if "`key'"!=""{
 		writeln `using' "\label{`key'}"
