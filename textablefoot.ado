@@ -49,9 +49,12 @@ program define textablefoot
 	}
 	
 	writeln `using' "\end{threeparttable}"
+	writeln `using' "\end{adjustbox}"
 	writeln `using' "\end{center}"
 
 	if "`landscape'"!=""{ 
 		writeln `using' "\end{landscape}"
 	}
+	
+
 end

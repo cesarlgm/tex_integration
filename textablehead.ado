@@ -72,6 +72,7 @@ program define textablehead
 	}
 
 	writeln `using' "\begin{center}"
+	writeln `using' "\begin{adjustbox}{max width=.9\textwidth}"
 	writeln `using' "\begin{threeparttable}[!h]"
 	
 	*I write the title
