@@ -8,6 +8,6 @@ program define leanesttab
 	
 
     esttab `anything' using `using',  label f collabels(none) ///
-        nomtitles plain  par  b(%9.`format'fc) se(%9.`format'fc) `options'
+        nomtitles plain  par  b(%9.`fmt'fc) se(%9.`fmt'fc) `options'
 
 end
