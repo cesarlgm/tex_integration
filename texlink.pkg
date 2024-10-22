@@ -1,3 +1,5 @@
+begin texlink.toc
+
 
 f texlink/texlink.toc 
 f texlink/grscheme.ado 
@@ -14,3 +16,5 @@ f texlink/textablehead.ado
 f texlink/textablehead.sthlp 
 f texlink/write_summ_stats.ado 
 f texlink/writeln.ado
+
+end texlink.toc
