@@ -1,5 +1,3 @@
-begin texlink.pkg
-
 f texlink.toc 
 f grscheme.ado 
 f grscheme.sthlp 
@@ -15,5 +13,3 @@ f textablehead.ado
 f textablehead.sthlp 
 f write_summ_stats.ado 
 f writeln.ado
-
-end texlink.pkg
