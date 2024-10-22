@@ -1,8 +1,0 @@
-Package: texlink
-Title: TeX Integration in Stata
-Version: 1.0.0
-Author: César Garro-Marín
-Maintainer: César Garro-Marín <cgarrom@ed.ac.uk>
-Description: This package provides tools for integrating TeX with Stata.
-Files: texlink.toc grscheme.ado grscheme.sthlp latexfigure.ado latexfigure.sthlp leanesttab.ado
-leanesttab.sthlp texbf.ado texspec.ado textablefoot.ado textablefoot.sthlp textablehead.ado textablehead.sthlp write_summ_stats.ado writeln.ado
