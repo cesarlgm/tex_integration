@@ -1,5 +1,7 @@
 begin stata.toc
 
-p texlink.pkg
+v 1
+d César Garro-Marín, University of Edinburgh
+p texlink tex-integration
 
 end stata.toc
