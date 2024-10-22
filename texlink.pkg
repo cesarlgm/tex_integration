@@ -1,4 +1,4 @@
-begin texlink.toc
+begin texlink.pkg
 
 
 f texlink/texlink.toc 
@@ -17,4 +17,4 @@ f texlink/textablehead.sthlp
 f texlink/write_summ_stats.ado 
 f texlink/writeln.ado
 
-end texlink.toc
+end texlink.pkg
