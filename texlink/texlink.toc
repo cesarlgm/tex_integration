@@ -1,4 +1,4 @@
-mypackage.toc
+texlink.toc
 grscheme.ado
 grscheme.sthlp 
 latexfigure.ado 
