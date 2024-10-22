@@ -1,3 +1,4 @@
+mypackage.toc
 grscheme.ado
 grscheme.sthlp 
 latexfigure.ado 
