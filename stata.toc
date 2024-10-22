@@ -1,6 +1,5 @@
-
-
 v 1
-d César Garro-Marín, University of Edinburgh
-p texlink tex-integration
+d César Garro-Marín, University of Edinburgh (cgarrom@ed.ac.uk)
+d César Garro-Marín, University of Edinburgh (cgarrom@ed.ac.uk)
+p texlink TEXLINK - Well-formatted tex tables with Stata
 
