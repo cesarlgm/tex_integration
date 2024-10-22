@@ -1,20 +1,19 @@
 begin texlink.pkg
 
-
-f texlink/texlink.toc 
-f texlink/grscheme.ado 
-f texlink/grscheme.sthlp 
-f texlink/latexfigure.ado 
-f texlink/latexfigure.sthlp 
-f texlink/leanesttab.ado
-f texlink/leanesttab.sthlp 
-f texlink/texbf.ado 
-f texlink/texspec.ado 
-f texlink/textablefoot.ado 
-f texlink/textablefoot.sthlp 
-f texlink/textablehead.ado 
-f texlink/textablehead.sthlp 
-f texlink/write_summ_stats.ado 
-f texlink/writeln.ado
+f texlink.toc 
+f grscheme.ado 
+f grscheme.sthlp 
+f latexfigure.ado 
+f latexfigure.sthlp 
+f leanesttab.ado
+f leanesttab.sthlp 
+f texbf.ado 
+f texspec.ado 
+f textablefoot.ado 
+f textablefoot.sthlp 
+f textablehead.ado 
+f textablehead.sthlp 
+f write_summ_stats.ado 
+f writeln.ado
 
 end texlink.pkg
