@@ -56,8 +56,8 @@ program define textablefoot
 	else {
 		writeln `using' "}"
 		if "`notes'"!="" {
-			writeln `using' "\begin{tablenotes}[Notes:]"
-			writeln `using' "\item `notes'. `timeLegend'`do_note'"
+			writeln `using' "\begin{tablenotes}[Notes]"
+			writeln `using' "`notes'. `timeLegend'`do_note'"
 			writeln `using' "\end{tablenotes}"
 		}
 		writeln `using' "\end{table}"
