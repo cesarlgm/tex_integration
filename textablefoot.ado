@@ -15,7 +15,7 @@ cap program drop textablefoot
 program define textablefoot
 	version 14.2
 	*notes just adds the string passed to it as a table note
-	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape]
+	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str)]
 	
 	tempname textable
 	file open `textable' using `using', append write
@@ -41,20 +41,30 @@ program define textablefoot
 	else {
 		local do_note= ""
 	}
-	
-	if "`notes'"!="" {
-		writeln `using' "\begin{tablenotes}"
-		writeln `using' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
-		writeln `using' "\end{tablenotes}"
+
+	if "`scheme'"!="aea"{	
+		if "`notes'"!="" {
+			writeln `using' "\begin{tablenotes}"
+			writeln `using' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
+			writeln `using' "\end{tablenotes}"
+		}
+		
+		writeln `using' "\end{threeparttable}"
+		writeln `using' "\end{adjustbox}"
+		writeln `using' "\end{center}"
 	}
-	
-	writeln `using' "\end{threeparttable}"
-	writeln `using' "\end{adjustbox}"
-	writeln `using' "\end{center}"
+	else {
+		writeln `using' "}"
+		if "`notes'"!="" {
+			writeln `using' "\begin{tablenotes}[Notes:]"
+			writeln `using' "\item `notes'. `timeLegend'`do_note'"
+			writeln `using' "\end{tablenotes}"
+		}
+		writeln `using' "\end{table}"
+	}
 
 	if "`landscape'"!=""{ 
 		writeln `using' "\end{landscape}"
 	}
-	
 
 end

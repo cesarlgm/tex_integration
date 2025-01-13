@@ -24,7 +24,7 @@ program define textablehead
 	syntax using/ , ncols(real) [ coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str)] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str)] 
 	
 
 	tokenize `"`coltitles'"'
@@ -62,7 +62,7 @@ program define textablehead
 		}
 		local allignment="`allignment'"+"`colalignment'"
 		local colnumbers="`colnumbers'"+"&"+"\multicolumn{1}{c}{(`col')}"
-		local coltitle="`coltitle'"+"&"+"\multicolumn{1}{c}{\textbf{``col''}}"
+		local coltitle="`coltitle'"+"&"+"\multicolumn{1}{c}{\makecell{``col''}}"
 	}
 	
 	
@@ -71,25 +71,47 @@ program define textablehead
 		writeln `using' "\begin{landscape}"
 	}
 
-	writeln `using' "\begin{center}"
-	if "`adjust'"=="" {
-		writeln `using' "\begin{adjustbox}{max width=.9\textwidth}"
+	if "`scheme'"!="aea" {
+		writeln `using' "\begin{center}"
+		if "`adjust'"=="" {
+			writeln `using' "\begin{adjustbox}{max width=.9\textwidth}"
+		}
+		else {
+			writeln `using' "\begin{adjustbox}{max width=`adjust'\textwidth}"
+		}
+		writeln `using' "\begin{threeparttable}[!h]"
+
+		*I write the title
+		if "`nocaption'"==""{
+			if "`title'"!=""{
+				writeln `using' "\caption{`title'}"
+				if "`key'"!=""{
+					writeln `using' "\label{`key'}"
+				}
+			}	
+		}
+	
 	}
 	else {
-		writeln `using' "\begin{adjustbox}{max width=`adjust'\textwidth}"
+		writeln `using' "\begin{table}[!h]"
+		*I write the title
+		if "`nocaption'"==""{
+			if "`title'"!=""{
+				writeln `using' "\caption{`title'}"
+				if "`key'"!=""{
+					writeln `using' "\label{`key'}"
+				}
+			}	
+		}
+		
+		if "`adjust'"=="" {
+			writeln `using' "\resizebox{.8\textwidth}{!}{"
+		}
+		else {
+			writeln `using' "\resizebox{`adjut'\textwidth}{!}{"
+		}
 	}
-	writeln `using' "\begin{threeparttable}[!h]"
 	
-	*I write the title
-	if "`nocaption'"==""{
-		if "`title'"!=""{
-			writeln `using' "\caption{`title'}"
-			if "`key'"!=""{
-				writeln `using' "\label{`key'}"
-			}
-		}	
-	}
-
 	writeln `using' "\begin{tabular}{`allignment'}"
 	writeln `using' "\toprule"
 	writeln `using' "\toprule"
@@ -98,7 +120,7 @@ program define textablehead
 	}
 	if "`supertitle'"!="" {
 		local span=`ncols'+1
-		writeln `using' "& \multicolumn{`ncols'}{c}{\textbf{`supertitle'}} \\"
+		writeln `using' "& \multicolumn{`ncols'}{c}{`supertitle'} \\"
 		writeln `using' "\cline{2-`span'}"
 	}
 	if "`invert'"=="" {
