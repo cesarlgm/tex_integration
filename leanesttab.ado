@@ -1,6 +1,6 @@
 capture program drop leanesttab
 program define leanesttab
-    syntax [anything]  using/, [format(string) collabels(str) *] 
+    syntax [anything]  using/, [format(string) collabels(str asis) *] 
 
     if "`format'"==""{
         local format 2
