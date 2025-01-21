@@ -1,21 +1,28 @@
 capture program drop leanesttab
 program define leanesttab
-    syntax [anything]  using/, [format(string) midhead(string) *] 
+    syntax [anything]  using/, [format(string) midhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) *] 
 
     if "`format'"==""{
         local format 2
     }
+
+	if "`cellalign'"=="" {
+		local cellalign="c"
+	}
+
 	
     if "`collabels'"=="" {
         local collabels collabels(none)
     }
 
+    local coltitle="`ctformat' `firsttitle'"
 
-    if "`midhead'"!="" {
-        local midhead ""
+    if `"`midhead'"'!="" {
+	    tokenize  `"`midhead'"'
         local ncols: word count `anything'
-        forvalues col=1/`ncols'{
-            local coltitle="`coltitle'"+"&"+"\multicolumn{1}{c}{\makecell{``col''}}"
+        local ncols = `ncols' + 1
+        forvalues col=1/`ncols' {
+		    local coltitle="`coltitle'"+"&"+"`ctformat' \makecell[`cellalign']{`bottom' ``col''}"
         }
 
         writeln "`using'" "\midrule `coltitle' \\"

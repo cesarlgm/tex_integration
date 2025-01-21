@@ -21,10 +21,10 @@ program define textablehead
 		key:			tex label of the table to be written in \label{}
 	
 	*/
-	syntax using/ , ncols(real) [ coltitles(str asis) Firsttitle(str) ///
+	syntax using/ , ncols(real)  [coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str)] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str)] 
 	
 
 	tokenize `"`coltitles'"'
@@ -35,21 +35,28 @@ program define textablehead
 	file open `textable' using `using', replace write
 	file close `textable'
 
+	if "`cellalign'"=="" {
+		local cellalign="c"
+	}
+
 	*First I create the variables necessary for the creation of the header
 	local allignment="l"
 	if "`colalignment'"=="" {
 		local colalignment="c"
 	}
 	
-	if "`dropcolnums'"=="" {
-		local colnumbers="\textbf{`firsttitle'}"
-		local coltitle=""
+	if "`dropcolnums'"==""{
+		if "`invert'"=="" {
+			local colnumbers="{ `ctformat' `firsttitle' }"
+			local coltitle=""
+		}
+		else {
+			local colnumbers=""
+			local coltitle="{ `ctformat' `firsttitle'}"
+		}
 	}
-
-
 	else {
-		local colnumbers=""
-		local coltitle="\textbf{`firsttitle'}"
+		local coltitle="{`ctformat' `firsttitle'}"
 	}
 	
 	if "`fullalignment'"!=""{
@@ -62,7 +69,7 @@ program define textablehead
 		}
 		local allignment="`allignment'"+"`colalignment'"
 		local colnumbers="`colnumbers'"+"&"+"\multicolumn{1}{c}{(`col')}"
-		local coltitle="`coltitle'"+"&"+"\multicolumn{1}{c}{\makecell{``col''}}"
+		local coltitle="`coltitle'"+"&"+"`ctformat' \makecell[`cellalign']{`bottom' ``col''}"
 	}
 	
 	
