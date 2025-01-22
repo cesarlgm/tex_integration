@@ -24,7 +24,7 @@ program define textablehead
 	syntax using/ , ncols(real)  [coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str)] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) double] 
 	
 
 	tokenize `"`coltitles'"'
@@ -121,7 +121,9 @@ program define textablehead
 	
 	writeln `using' "\begin{tabular}{`allignment'}"
 	writeln `using' "\toprule"
-	writeln `using' "\toprule"
+	if "`doble'"!="" {
+		writeln `using' "\toprule"
+	}
 	if "`exhead'"!="" {
 		writeln `using' "`exhead'"
 	}
