@@ -21,10 +21,10 @@ program define textablehead
 		key:			tex label of the table to be written in \label{}
 	
 	*/
-	syntax using/ , ncols(real)  [coltitles(str asis) Firsttitle(str) ///
+	syntax using/ ,  [  coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) double] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) ] 
 	
 
 	tokenize `"`coltitles'"'
@@ -34,6 +34,16 @@ program define textablehead
 	tempname textable
 	file open `textable' using `using', replace write
 	file close `textable'
+
+	if "`ncols'"=="" {
+		if `"`coltitles'"'=="" {
+			display  as error "You must specify the number of columns in the table or provide column titles"
+			error 1
+		}
+		else {
+			local ncols: word count `coltitles'
+		}
+	}
 
 	if "`cellalign'"=="" {
 		local cellalign="c"
@@ -121,7 +131,7 @@ program define textablehead
 	
 	writeln `using' "\begin{tabular}{`allignment'}"
 	writeln `using' "\toprule"
-	if "`doble'"!="" {
+	if "`doublerule'"!="" {
 		writeln `using' "\toprule"
 	}
 	if "`exhead'"!="" {
