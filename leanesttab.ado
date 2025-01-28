@@ -1,6 +1,6 @@
 capture program drop leanesttab
 program define leanesttab
-    syntax [anything]  using/, [format(string) midhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) *] 
+    syntax [anything]  using/, [format(string) midhead(str asis) EXhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) *] 
 
     if "`format'"==""{
         local format 2
@@ -25,8 +25,14 @@ program define leanesttab
 		    local coltitle="`coltitle'"+"&"+"`ctformat' \makecell[`cellalign']{`bottom' ``col''}"
         }
 
-        writeln "`using'" "\midrule `coltitle' \\"
-
+        if "`exhead'"!="" {
+            writeln "`using'"  "`exhead'"
+            writeln "`using'" "`coltitle' \\"  
+        }
+        else {
+            writeln "`using'" "\midrule `coltitle' \\"
+        }    
+        
         writeln "`using'" "\midrule"    
     }
 
