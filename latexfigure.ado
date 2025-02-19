@@ -18,7 +18,7 @@ program define latexfigure
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
 	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) ///
-		figlab(str asis) note(str) shortnote(str) dofile(str) cont NODate SLide ]
+		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide ]
 	
 
 	*First I extract the number of figures
