@@ -30,7 +30,7 @@ program define latexfigure
 	}
 	
 	if "`slide'"!="" {
-		local stub="slide"
+		local stub="_slide"
 	}
 
 	*This bit adds the stub slide if the figure is done for a slide
@@ -94,7 +94,7 @@ program define latexfigure
 			local do_legend= ""
 		}
 	}
-	
+
 	writeln `using' "`graphcode'"
 	if "`slide'"!="" {
 		if "`note'"!=""{
@@ -105,11 +105,9 @@ program define latexfigure
 		if "`shortnote'"!=""{
 			writeln `using' "\caption{`shortnote'`timeLegend'`do_legend'}"
 		}
-		else if {
-			"`note'"!=""{
+		else if "`note'"!=""{
 				noi di as error "Not short version of the notes (shortnote) provided, using the long version instead."
 				writeln `using' "\caption{`note'`timeLegend'`do_legend'}"
-			}
 		}
 		else {
 			writeln `using' "\caption{`timeLegend'`do_legend'}"
@@ -118,5 +116,5 @@ program define latexfigure
 
 	writeln `using' "\end{figure}"
 	
-	noi di "Latex file created in `using'", as result
+	noisily di  as result  "Latex file created in `using'"
 end
