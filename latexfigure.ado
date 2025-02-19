@@ -10,7 +10,7 @@
 *===============================================================================
 capture program drop latexfigure
 program define latexfigure
-	version 14.2
+	version 16.1
 	
 	*rowsize: 		number of graphs in a line
 	*figurelist: 	namelist of pdf files that contain the figures
@@ -18,7 +18,7 @@ program define latexfigure
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
 	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) ///
-		figlab(str asis) note(str) dofile(str) cont NODate]
+		figlab(str asis) note(str) shortnote(str) dofile(str) cont NODate SLide ]
 	
 	cap rm "`using'"
 	
@@ -29,6 +29,19 @@ program define latexfigure
 		local rowsize=`nfig'
 	}
 	
+	if "`slide'"!="" {
+		local stub="slide"
+	}
+
+	*This bit adds the stub slide if the figure is done for a slide
+    if substr("`using'", -4, 4) == ".tex" {
+        local using = substr("`using'", 1, length("`using'") - 4)
+    } 
+
+	local using = "`using'"+"`stub'"+".tex"
+    
+
+
 	if `nfig'==1 {
 		local width=1/`rowsize'
 		local figurepath="`path'"+"/"+"`figurelist'"
@@ -60,7 +73,10 @@ program define latexfigure
 	}
 	
 	if "`title'"!=""{
-		writeln `using' "\caption{`title'}"
+		if "`slide'"!="" {
+			*By default, figures in slide will not have a caption
+			writeln `using' "\caption{`title'}"
+		}
 	}
 	if "`key'"!=""{
 		writeln `using' "\label{`key'}"
@@ -79,15 +95,27 @@ program define latexfigure
 		}
 	}
 	
-	
-	
 	writeln `using' "`graphcode'"
-	if "`note'"!=""{
-		writeln `using' "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
+	if "`slide'"!="" {
+		if "`note'"!=""{
+			writeln `using' "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
+		}
 	}
-	
+	else {
+		if "`shortnote'"!=""{
+			writeln `using' "\caption{`shortnote'`timeLegend'`do_legend'}"
+		}
+		else if {
+			"`note'"!=""{
+				noi di as error "Not short version of the notes (shortnote) provided, using the long version instead."
+				writeln `using' "\caption{`note'`timeLegend'`do_legend'}"
+			}
+		}
+		else {
+			writeln `using' "\caption{`timeLegend'`do_legend'}"
+		}
+	}
 
-	
 	writeln `using' "\end{figure}"
 	
 	noi di "Latex file created in `using'", as result
