@@ -37,6 +37,7 @@ program define latexfigure
 	*This bit adds the stub slide if the figure is done for a slide
     if substr("`using_name'", -4, 4) == ".tex" {
         local using_trim = substr("`using_name'", 1, length("`using_name'") - 4)
+		noi di as result "`using_trim'"
     }
 	else {
 		local using_trim = "`using_name'"
@@ -114,7 +115,7 @@ program define latexfigure
 			writeln "`using_mod'" "\caption{`shortnote'`timeLegend'`do_legend'}"
 		}
 		else if "`note'"!=""{
-				noi di as error "No short version of the notes (shortnote) provided, using the long version instead."
+				noi di as error "Not short version of the notes (shortnote) provided, using the long version instead."
 				writeln "`using_mod'" "\caption{`note'`timeLegend'`do_legend'}"
 		}
 		else {
