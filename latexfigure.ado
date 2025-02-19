@@ -33,6 +33,9 @@ program define latexfigure
 	if "`slide'"!="" {
 		local stub="_slide"
 	}
+	else {
+		local stub="_paper"
+	}
 
 	*This bit adds the stub slide if the figure is done for a slide
     if substr("`using_name'", -4, 4) == ".tex" {

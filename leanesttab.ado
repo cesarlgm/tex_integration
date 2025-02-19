@@ -1,6 +1,27 @@
 capture program drop leanesttab
 program define leanesttab
-    syntax [anything]  using/, [format(string) midhead(str asis) EXhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) ncols(str) * ] 
+    syntax [anything]  using/, [format(string) midhead(str asis) EXhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) ncols(str) SLide * ] 
+
+	
+	local using_name= "`using'"
+
+	if "`slide'"!="" {
+		local stub="_slide"
+	}
+	else {
+		local stub="_paper"
+	}
+
+	*This bit adds the stub slide if the figure is done for a slide
+    if substr("`using_name'", -4, 4) == ".tex" {
+        local using_trim = substr("`using_name'", 1, length("`using_name'") - 4)
+    }
+	else {
+		local using_trim = "`using_name'"
+	}
+	
+	
+	local using_mod = "`using_trim'"+"`stub'"+".tex"
 
     if "`format'"==""{
         local format 2
@@ -28,18 +49,18 @@ program define leanesttab
         }
 
         if "`exhead'"!="" {
-            writeln "`using'"  "`exhead'"
-            writeln "`using'" "`coltitle' \\"  
+            writeln "`using_mod'"  "`exhead'"
+            writeln "`using_mod'" "`coltitle' \\"  
         }
         else {
-            writeln "`using'" "\midrule `coltitle' \\"
+            writeln "`using_mod'" "\midrule `coltitle' \\"
         }    
         
-        writeln "`using'" "\midrule"    
+        writeln "`using_mod'" "\midrule"    
     }
 
 
-    esttab `anything' using `using',  label f collabels(none) ///
+    esttab `anything' using `using_mod',  label f collabels(none) ///
         nomtitles plain  par  b(%9.`format'fc) se(%9.`format'fc) `options'
 
 end

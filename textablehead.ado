@@ -24,16 +24,37 @@ program define textablehead
 	syntax using/ ,  [  coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) ] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) SLide] 
 	
 
 	tokenize `"`coltitles'"'
 
 
+	
+	local using_name= "`using'"
 
+	if "`slide'"!="" {
+		local stub="_slide"
+	}
+	else {
+		local stub="_paper"
+	}
+
+	*This bit adds the stub slide if the figure is done for a slide
+    if substr("`using_name'", -4, 4) == ".tex" {
+        local using_trim = substr("`using_name'", 1, length("`using_name'") - 4)
+    }
+	else {
+		local using_trim = "`using_name'"
+	}
+	
+	
+	local using_mod = "`using_trim'"+"`stub'"+".tex"
+    
 	tempname textable
-	file open `textable' using `using', replace write
+	file open `textable' using `using_mod', replace write
 	file close `textable'
+
 
 	if "`ncols'"=="" {
 		if `"`coltitles'"'=="" {
@@ -85,78 +106,78 @@ program define textablehead
 	
 	*I start writting the table header
 	if  "`landscape'"!=""{
-		writeln `using' "\begin{landscape}"
+		writeln "`using_mod'" "\begin{landscape}"
 	}
 
 	if "`scheme'"!="aea" {
-		writeln `using' "\begin{center}"
+		writeln "`using_mod'" "\begin{center}"
 		if "`adjust'"=="" {
-			writeln `using' "\begin{adjustbox}{max width=.9\textwidth}"
+			writeln "`using_mod'" "\begin{adjustbox}{max width=.9\textwidth}"
 		}
 		else {
-			writeln `using' "\begin{adjustbox}{max width=`adjust'\textwidth}"
+			writeln "`using_mod'" "\begin{adjustbox}{max width=`adjust'\textwidth}"
 		}
-		writeln `using' "\begin{threeparttable}[!h]"
+		writeln "`using_mod'" "\begin{threeparttable}[!h]"
 
 		*I write the title
 		if "`nocaption'"==""{
 			if "`title'"!=""{
-				writeln `using' "\caption{`title'}"
+				writeln "`using_mod'" "\caption{`title'}"
 				if "`key'"!=""{
-					writeln `using' "\label{`key'}"
+					writeln "`using_mod'" "\label{`key'}"
 				}
 			}	
 		}
 	
 	}
 	else {
-		writeln `using' "\begin{table}[!h]"
+		writeln "`using_mod'" "\begin{table}[!h]"
 		*I write the title
 		if "`nocaption'"==""{
 			if "`title'"!=""{
-				writeln `using' "\caption{`title'}"
+				writeln "`using_mod'" "\caption{`title'}"
 				if "`key'"!=""{
-					writeln `using' "\label{`key'}"
+					writeln "`using_mod'" "\label{`key'}"
 				}
 			}	
 		}
 		
 		if "`adjust'"=="" {
-			writeln `using' "\resizebox{.8\textwidth}{!}{"
+			writeln "`using_mod'" "\resizebox{.8\textwidth}{!}{"
 		}
 		else {
-			writeln `using' "\resizebox{`adjut'\textwidth}{!}{"
+			writeln "`using_mod'" "\resizebox{`adjut'\textwidth}{!}{"
 		}
 	}
 	
-	writeln `using' "\begin{tabular}{`allignment'}"
-	writeln `using' "\toprule"
+	writeln "`using_mod'" "\begin{tabular}{`allignment'}"
+	writeln "`using_mod'" "\toprule"
 	if "`doublerule'"!="" {
-		writeln `using' "\toprule"
+		writeln "`using_mod'" "\toprule"
 	}
 	if "`exhead'"!="" {
-		writeln `using' "`exhead'"
+		writeln "`using_mod'" "`exhead'"
 	}
 	if "`supertitle'"!="" {
 		local span=`ncols'+1
-		writeln `using' "& \multicolumn{`ncols'}{c}{`supertitle'} \\"
-		writeln `using' "\cline{2-`span'}"
+		writeln "`using_mod'" "& \multicolumn{`ncols'}{c}{`supertitle'} \\"
+		writeln "`using_mod'" "\cline{2-`span'}"
 	}
 	if "`invert'"=="" {
 		if `"`coltitles'"'!="" {
-			writeln `using' "`coltitle' \\"
+			writeln "`using_mod'" "`coltitle' \\"
 		}
 		if "`dropcolnums'"==""{
-			writeln `using' "`colnumbers' \\"
+			writeln "`using_mod'" "`colnumbers' \\"
 		}
 	}
 	else {
 		if "`dropcolnums'"==""{
-			writeln `using' "`colnumbers' \\"
+			writeln "`using_mod'" "`colnumbers' \\"
 		}
 		if `"`coltitles'"'!="" {
-			writeln `using' "`coltitle' \\"
+			writeln "`using_mod'" "`coltitle' \\"
 		}
 	}
-	writeln `using' "\midrule"
+	writeln "`using_mod'" "\midrule"
 end

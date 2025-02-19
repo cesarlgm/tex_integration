@@ -15,15 +15,35 @@ cap program drop textablefoot
 program define textablefoot
 	version 14.2
 	*notes just adds the string passed to it as a table note
-	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str)]
+	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide]
 	
+	local using_name= "`using'"
+
+	if "`slide'"!="" {
+		local stub="_slide"
+	}
+	else {
+		local stub="_paper"
+	}
+
+	*This bit adds the stub slide if the figure is done for a slide
+    if substr("`using_name'", -4, 4) == ".tex" {
+        local using_trim = substr("`using_name'", 1, length("`using_name'") - 4)
+    }
+	else {
+		local using_trim = "`using_name'"
+	}
+	
+	
+	local using_mod = "`using_trim'"+"`stub'"+".tex"
+
 	tempname textable
-	file open `textable' using `using', append write
+	file open `textable' using `using_mod', append write
 	file close `textable'
 
-	writeln `using' "\bottomrule"
-	writeln `using' "\bottomrule"
-	writeln `using' "\end{tabular}"
+	writeln `using_mod' "\bottomrule"
+	writeln `using_mod' "\bottomrule"
+	writeln `using_mod' "\end{tabular}"
 	if "`fontsize'"==""{
 		local fontsize \footnotesize
 	}
@@ -44,27 +64,27 @@ program define textablefoot
 
 	if "`scheme'"!="aea"{	
 		if "`notes'"!="" {
-			writeln `using' "\begin{tablenotes}"
-			writeln `using' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
-			writeln `using' "\end{tablenotes}"
+			writeln `using_mod' "\begin{tablenotes}"
+			writeln `using_mod' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
+			writeln `using_mod' "\end{tablenotes}"
 		}
 		
-		writeln `using' "\end{threeparttable}"
-		writeln `using' "\end{adjustbox}"
-		writeln `using' "\end{center}"
+		writeln `using_mod' "\end{threeparttable}"
+		writeln `using_mod' "\end{adjustbox}"
+		writeln `using_mod' "\end{center}"
 	}
 	else {
-		writeln `using' "}"
+		writeln `using_mod' "}"
 		if "`notes'"!="" {
-			writeln `using' "\begin{tablenotes}[Notes]"
-			writeln `using' "`notes'. `timeLegend'`do_note'"
-			writeln `using' "\end{tablenotes}"
+			writeln `using_mod' "\begin{tablenotes}[Notes]"
+			writeln `using_mod' "`notes'. `timeLegend'`do_note'"
+			writeln `using_mod' "\end{tablenotes}"
 		}
-		writeln `using' "\end{table}"
+		writeln `using_mod' "\end{table}"
 	}
 
 	if "`landscape'"!=""{ 
-		writeln `using' "\end{landscape}"
+		writeln `using_mod' "\end{landscape}"
 	}
 
 end
