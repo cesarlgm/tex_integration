@@ -81,15 +81,15 @@ program define latexfigure
 	}
 	
 	if "`title'"!=""{
-		if "`slide'"!="" {
+		if "`slide'"=="" {
 			*By default, figures in slide will not have a caption
 			writeln "`using_mod'" "\caption{`title'}"
 		}
+		if "`key'"!=""{
+			writeln "`using_mod'" "\label{`key'}"
+		}
 	}
-	if "`key'"!=""{
-		writeln "`using_mod'" "\label{`key'}"
-	}
-	
+
 	if "`nodate'"=="nodate" {
 		local timeLegend= ""
 	}
