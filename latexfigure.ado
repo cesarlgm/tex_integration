@@ -114,14 +114,14 @@ program define latexfigure
 	}
 	else {
 		if "`shortnote'"!=""{
-			writeln "`using_mod'" "\caption{`shortnote'`timeLegend'`do_legend'}"
+			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:}{`shortnote'`timeLegend'`do_legend'}\end{minipage}"
 		}
 		else if "`note'"!=""{
 				noi di as error "No short version of the notes (shortnote) provided, using the long version instead."
-				writeln "`using_mod'" "\caption{`note'`timeLegend'`do_legend'}"
+				writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
 		}
 		else {
-			writeln "`using_mod'" "\caption{`timeLegend'`do_legend'}"
+			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:}`timeLegend'`do_legend'}\end{minipage}"
 		}
 	}
 
