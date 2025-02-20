@@ -9,7 +9,7 @@
 */
 *===============================================================================
 capture program drop textablehead
-program define textablehead
+program define textablehead, rclass
 	version 14.2
 	/*
 		arguments:
@@ -180,4 +180,6 @@ program define textablehead
 		}
 	}
 	writeln "`using_mod'" "\midrule"
+
+	local return new_name= "`using_mod'"
 end
