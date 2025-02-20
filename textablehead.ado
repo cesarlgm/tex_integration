@@ -24,7 +24,7 @@ program define textablehead, rclass
 	syntax using/ ,  [  coltitles(str asis) Firsttitle(str) ///
 					Title(str)  COLaligment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) SLide] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) SLide Mod] 
 	
 
 	tokenize `"`coltitles'"'
@@ -33,12 +33,18 @@ program define textablehead, rclass
 	
 	local using_name= "`using'"
 
-	if "`slide'"!="" {
-		local stub="_slide"
+	if "`mod'"!=""|"`slide'"!="" {
+		if "`slide'"!="" {
+			local stub="_slide"
+		}
+		else {
+			local stub="_paper"
+		}
 	}
 	else {
-		local stub="_paper"
+		local stub=""
 	}
+
 
 	*This bit adds the stub slide if the figure is done for a slide
     if substr("`using_name'", -4, 4) == ".tex" {

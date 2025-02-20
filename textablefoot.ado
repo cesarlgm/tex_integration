@@ -15,15 +15,20 @@ cap program drop textablefoot
 program define textablefoot
 	version 14.2
 	*notes just adds the string passed to it as a table note
-	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide]
+	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod]
 	
 	local using_name= "`using'"
 
-	if "`slide'"!="" {
-		local stub="_slide"
+	if "`mod'"!=""|"`slide'"!="" {
+		if "`slide'"!="" {
+			local stub="_slide"
+		}
+		else {
+			local stub="_paper"
+		}
 	}
 	else {
-		local stub="_paper"
+		local stub=""
 	}
 
 	*This bit adds the stub slide if the figure is done for a slide
