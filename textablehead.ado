@@ -181,5 +181,5 @@ program define textablehead, rclass
 	}
 	writeln "`using_mod'" "\midrule"
 
-	local return new_name= "`using_mod'"
+	return local  new_name= "`using_mod'"
 end
