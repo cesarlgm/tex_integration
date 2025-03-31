@@ -8,7 +8,7 @@ program define grscheme
 	
 	grstyle scheme plotplain
 
-    grstyle set color `palette', n(`n_colors') opacity(60)
+    grstyle set color `palette', n(`ncolor') opacity(60)
 	
 	symbolpalette lean, nogr
 	
