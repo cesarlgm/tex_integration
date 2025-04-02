@@ -18,7 +18,7 @@ program define latexfigure
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
 	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) ///
-		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide ]
+		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea ]
 	
 
 	*First I extract the number of figures
@@ -70,8 +70,6 @@ program define latexfigure
 			}
 			local figurename: word `fig'  of `figurelist'
 			local figurelab="``fig''"
-			di "`figurename'"
-			di "`figurelab'"
 			local figurepath="`path'"+"/"+"`figurename'"
 			local graphcode="`graphcode'"+"\subfloat[`figurelab']{\includegraphics[width=`width'\textwidth]{`figurepath'}}"+"`sep'"
 		}
@@ -83,13 +81,15 @@ program define latexfigure
 		writeln "`using_mod'" "\ContinuedFloat"
 	}
 	
-	if "`title'"!=""{
-		if "`slide'"=="" {
-			*By default, figures in slide will not have a caption
-			writeln "`using_mod'" "\caption{`title'}"
-		}
-		if "`key'"!=""{
-			writeln "`using_mod'" "\label{`key'}"
+	if "`aea'"==""{
+		if "`title'"!=""{
+			if "`slide'"=="" {
+				*By default, figures in slide will not have a caption
+				writeln "`using_mod'" "\caption{`title'}"
+			}
+			if "`key'"!=""{
+				writeln "`using_mod'" "\label{`key'}"
+			}
 		}
 	}
 
@@ -124,6 +124,19 @@ program define latexfigure
 			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `timeLegend'`do_legend'}\end{minipage}"
 		}
 	}
+
+	if "`aea'"!=""{
+		if "`title'"!=""{
+			if "`slide'"=="" {
+				*By default, figures in slide will not have a caption
+				writeln "`using_mod'" "\caption{\scshape `title'}"
+			}
+			if "`key'"!=""{
+				writeln "`using_mod'" "\label{`key'}"
+			}
+		}
+	}
+
 
 	writeln "`using_mod'" "\end{figure}"
 	
