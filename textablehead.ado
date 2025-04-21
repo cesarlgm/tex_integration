@@ -22,9 +22,9 @@ program define textablehead, rclass
 	
 	*/
 	syntax using/ ,  [  coltitles(str asis) Firsttitle(str) ///
-					Title(str)  COLaligment(str) key(str) DROPcolnums ///
+					Title(str)  COLAlignment(str) key(str) DROPcolnums ///
 					SUPertitle(str) EXhead(str) FULlalignment(str) ///
-					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) CEllalign(str) DoubleRule ncols(str) SLide Mod] 
+					LANDscape INVert  NOCaption  ADJust(str) SCHeme(str) CTformat(str) cellalign(str) DoubleRule ncols(str) SLide NOFirst Mod] 
 	
 
 	tokenize `"`coltitles'"'
@@ -72,44 +72,90 @@ program define textablehead, rclass
 		}
 	}
 
-	if "`cellalign'"=="" {
-		local cellalign="c"
-	}
-
-	*First I create the variables necessary for the creation of the header
-	local allignment="l"
+	*This sets the aligment of the body of the table
 	if "`colalignment'"=="" {
 		local colalignment="c"
 	}
-	
+	else {
+		local colalignment="`colalignment'"
+	}
+
+	*This sets the alignment of the header
+	if "`cellalign'"=="" {
+		local cellalign="c"
+	}
+	else {
+		local cellalign="`cellalign'"
+	}
+
+	*First I create the variables necessary for the creation of the header
+	if "`nofirst'"=="" {
+		local allignment="l"
+	}
+	else {
+		local allignment=""
+	}
+
 	if "`dropcolnums'"==""{
 		if "`invert'"=="" {
-			local colnumbers="{ `ctformat' `firsttitle' }"
-			local coltitle=""
+			if "`nofirst'"=="" {
+				local colnumbers="{ `ctformat' `firsttitle' }"
+				local coltitle=""
+			}
+			else {
+				local colnumbers=""
+				local coltitle=""
+			}
 		}
 		else {
-			local colnumbers=""
-			local coltitle="{ `ctformat' `firsttitle'}"
+			if "`nofirst'"=="" {
+				local colnumbers=""
+				local coltitle="{ `ctformat' `firsttitle'}"
+			}
+			else{
+				local colnumbers=""
+				local coltitle=""
+			}
 		}
 	}
 	else {
-		local coltitle="{`ctformat' `firsttitle'}"
+		if "`nofirst'"=="" {
+			local coltitle="{`ctformat' `firsttitle'}"
+		}
+		else {
+			local coltitle=""
+		}	
 	}
 	
-	if "`fullalignment'"!=""{
-		local colalignment="`fullalignment'"
-	}
 
 	forvalues col=1/`ncols'{
 		if "``col''"=="`parse'"{ 
 			local `col' " "
 		}
-		local allignment="`allignment'"+"`colalignment'"
-		local colnumbers="`colnumbers'"+"&"+"\multicolumn{1}{c}{(`col')}"
-		local coltitle="`coltitle'"+"&"+"`ctformat' \makecell[`cellalign']{`bottom' ``col''}"
+		if "`nofirst'"=="" {
+			local first_separator="&"
+		}
+		else {
+			local first_separator=""
+		}
+
+		if `col'==1{
+			local colnumbers="`colnumbers'"+"`first_separator'"+"\multicolumn{1}{c}{(`col')}"
+			local coltitle="`coltitle'"+"`first_separator'"+"\makecell[`cellalign']{`ctformat' `bottom' ``col''}"
+		}
+		else {
+			local colnumbers="`colnumbers'"+"&"+"\multicolumn{1}{c}{(`col')}"
+			local coltitle="`coltitle'"+"&"+" \makecell[`cellalign']{`ctformat' `bottom' ``col''}"
+		}
+		local allignment="`allignment'"+"`colalignment'"	
 	}
 	
 	
+	if "`fullalignment'"!=""{
+		local allignment="`fullalignment'"
+	}
+
+
 	*I start writting the table header
 	if  "`landscape'"!=""{
 		writeln "`using_mod'" "\begin{landscape}"

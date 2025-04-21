@@ -1,6 +1,6 @@
 capture program drop leanesttab
 program define leanesttab
-    syntax [anything]  using/, [format(string) midhead(str asis) EXhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) ncols(str) SLide  Mod * ] 
+    syntax [anything]  using/, [format(string) midhead(str asis) EXhead(str asis) CTformat(string) Firsttitle(str) CEllalign(str) ncols(str) SLide  Mod  * ] 
 
 	
 	local using_name= "`using'"
