@@ -18,7 +18,7 @@ program define latexfigure
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
 	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) ///
-		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea ]
+		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea LANDscape ]
 	
 
 	*First I extract the number of figures
@@ -75,6 +75,10 @@ program define latexfigure
 		}
 	}
 	
+	if "`landscape'"!="" {
+		writeln "`using_mod'" "\begin{landscape}"
+	}
+
 	writeln "`using_mod'" "\begin{figure}[!h]"
 	writeln "`using_mod'" "\centering"
 	if "`cont'"!=""{
@@ -109,19 +113,19 @@ program define latexfigure
 	writeln "`using_mod'" "`graphcode'"
 	if "`slide'"=="" {
 		if "`note'"!=""{
-			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
+			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\footnotesize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
 		}
 	}
 	else {
 		if "`shortnote'"!=""{
-			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `shortnote'`timeLegend'`do_legend'}\end{minipage}"
+			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\footnotesize\textit{Notes:} `shortnote'`timeLegend'`do_legend'}\end{minipage}"
 		}
 		else if "`note'"!=""{
 				noi di as error "No short version of the notes (shortnote) provided, using the long version instead."
-				writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
+				writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\footnotesize\textit{Notes:} `note'`timeLegend'`do_legend'}\end{minipage}"
 		}
 		else {
-			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\scriptsize\textit{Notes:} `timeLegend'`do_legend'}\end{minipage}"
+			writeln "`using_mod'" "\par \begin{minipage}[h]{\textwidth}{\footnotesize\textit{Notes:} `timeLegend'`do_legend'}\end{minipage}"
 		}
 	}
 
@@ -139,6 +143,11 @@ program define latexfigure
 
 
 	writeln "`using_mod'" "\end{figure}"
+
+		
+	if "`landscape'"!="" {
+		writeln "`using_mod'" "\end{landscape}"
+	}
 	
 	noisily di  as result  "Latex file created in `using_mod'"
 end
