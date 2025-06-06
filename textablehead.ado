@@ -174,7 +174,9 @@ program define textablehead, rclass
 		*I write the title
 		if "`nocaption'"==""{
 			if "`title'"!=""{
-				writeln "`using_mod'" "\caption{`title'}"
+				if "`slide'"=="" {
+					writeln "`using_mod'" "\caption{`title'}"
+				}
 				if "`key'"!=""{
 					writeln "`using_mod'" "\label{`key'}"
 				}
