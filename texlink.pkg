@@ -16,3 +16,4 @@ f textablehead.sthlp
 f write_summ_stats.ado 
 f writeln.ado
 f writelntc.ado
+f writetext.ado
