@@ -13,7 +13,7 @@
 
 capture program drop writetext
 program define writetext
-	syntax, file(str) text(double) [fmt(str) percent]
+	syntax, file(str) text(double) [fmt(str) PERcent]
 
 	if "`percent'"!="" {
 		local fmt %9.0fc
