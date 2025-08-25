@@ -3,6 +3,7 @@ capture program drop grscheme
 program define grscheme
     syntax, ncolor(string) palette(string) 
 
+	set scheme s1color
     
 	grstyle init
 	
