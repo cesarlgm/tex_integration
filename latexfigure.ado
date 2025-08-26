@@ -17,7 +17,7 @@ program define latexfigure
 	*path:			figure path relative to latex file.
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
-	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) ///
+	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) subkey(str asis) ///
 		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea LANDscape ]
 	
 
@@ -68,10 +68,21 @@ program define latexfigure
 			else {
 				local sep " "
 			}
+			
+			local tempkey: word `fig' of `subkey'
+			if "`tempkey'"=="" {
+				local panelkey=""
+			}
+			else {
+				local panelkey="\label{subfig:`tempkey'}"
+			}
+			
+			
 			local figurename: word `fig'  of `figurelist'
+	
 			local figurelab="``fig''"
 			local figurepath="`path'"+"/"+"`figurename'"
-			local graphcode="`graphcode'"+"\subfloat[`figurelab']{\includegraphics[width=`width'\textwidth]{`figurepath'}}"+"`sep'"
+			local graphcode="`graphcode'"+"\subfloat[`figurelab']{\includegraphics[width=`width'\textwidth]{`figurepath'}`panelkey'}"+"`sep'"
 		}
 	}
 	
@@ -92,7 +103,7 @@ program define latexfigure
 				writeln "`using_mod'" "\caption{`title'}"
 			}
 			if "`key'"!=""{
-				writeln "`using_mod'" "\label{`key'}"
+				writeln "`using_mod'" "\label{fig:`key'}"
 			}
 		}
 	}
