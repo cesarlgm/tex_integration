@@ -18,7 +18,7 @@ program define latexfigure
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
 	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) subkey(str asis) ///
-		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea LANDscape ]
+		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea LANDscape width(str)]
 	
 
 	*First I extract the number of figures
@@ -51,10 +51,14 @@ program define latexfigure
 	*Erasing the file if it exists
 	cap rm "`using_mod'"
 	
-
+	if "`width'"!="" {
+		local width="`width'"
+	}
+	else {
+		local width=1/`rowsize'
+	}
 
 	if `nfig'==1 {
-		local width=1/`rowsize'
 		local figurepath="`path'"+"/"+"`figurelist'"
 		local graphcode="\includegraphics[width=`width'\textwidth]{`figurepath'}"
 	}
