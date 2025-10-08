@@ -178,7 +178,7 @@ program define textablehead, rclass
 					writeln "`using_mod'" "\caption{`title'}"
 				}
 				if "`key'"!=""{
-					writeln "`using_mod'" "\label{`key'}"
+					writeln "`using_mod'" "\label{tab:`key'}"
 				}
 			}	
 		}
@@ -191,7 +191,7 @@ program define textablehead, rclass
 			if "`title'"!=""{
 				writeln "`using_mod'" "\caption{`title'}"
 				if "`key'"!=""{
-					writeln "`using_mod'" "\label{`key'}"
+					writeln "`using_mod'" "\label{tab:`key'}"
 				}
 			}	
 		}
