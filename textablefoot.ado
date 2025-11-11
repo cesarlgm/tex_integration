@@ -15,7 +15,7 @@ cap program drop textablefoot
 program define textablefoot
 	version 14.2
 	*notes just adds the string passed to it as a table note
-	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod]
+	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod shortnote(str)]
 	
 	local using_name= "`using'"
 
@@ -80,10 +80,24 @@ program define textablefoot
 	}
 	else {
 		writeln `using_mod' "}"
-		if "`notes'"!="" {
-			writeln `using_mod' "\begin{tablenotes}[Notes]"
-			writeln `using_mod' "`notes'. `timeLegend'`do_note'"
-			writeln `using_mod' "\end{tablenotes}"
+		if "`slide'"==""{
+			if "`notes'"!="" {
+				writeln `using_mod' "\begin{tablenotes}[Notes]"
+				writeln `using_mod' "`notes'. `timeLegend'`do_note'"
+				writeln `using_mod' "\end{tablenotes}"
+			}
+		}
+		else {
+			if "`note'"!=""&"`shortnote'"==""{
+				writeln `using_mod' "\begin{tablenotes}[Notes]"
+				writeln `using_mod' "`note'."
+				writeln `using_mod' "\end{tablenotes}"
+			}
+			else if "`shortnote'"!="" {
+				writeln `using_mod' "\begin{tablenotes}[Notes]"
+				writeln `using_mod' "`shortnote'."
+				writeln `using_mod' "\end{tablenotes}"
+			}
 		}
 		writeln `using_mod' "\end{table}"
 	}
