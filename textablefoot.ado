@@ -17,8 +17,12 @@ cap program drop textablefoot
 program define textablefoot
 	version 14.2
 	*notes just adds the string passed to it as a table note
-	syntax using/, [notes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod SHORTnotes(str)]
+	syntax using/, [notes(str)  SHORTnotes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod]
 	
+	di as result "`shortnotes'"
+	di as result "`notes'"
+	di as result "`slide'"
+
 	local using_name= "`using'"
 
 	if "`mod'"!=""|"`slide'"!="" {
@@ -69,13 +73,26 @@ program define textablefoot
 		local do_note= ""
 	}
 
-	if "`scheme'"!="aea"{	
-		if "`notes'"!="" {
-			writeln `using_mod' "\begin{tablenotes}"
-			writeln `using_mod' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
-			writeln `using_mod' "\end{tablenotes}"
+	if "`scheme'"!="aea"{
+		if "`slide'"==""{
+			if "`notes'"!="" {
+				writeln `using_mod' "\begin{tablenotes}"
+				writeln `using_mod' "\item `fontsize' \textit{Notes:} `notes'. `timeLegend'`do_note'"
+				writeln `using_mod' "\end{tablenotes}"
+			}
 		}
-		
+		else {
+			if "`shortnotes'"!="" {
+				writeln `using_mod' "\begin{tablenotes}"
+				writeln `using_mod' "\item `fontsize' \textit{Notes:} `shortnotes'."
+				writeln `using_mod' "\end{tablenotes}"
+			}
+			else if "`shortnotes'"==""&"`notes'"!=""{
+				writeln `using_mod' "\begin{tablenotes}"
+				writeln `using_mod' "\item `fontsize' \textit{Notes:} `notes'."
+				writeln `using_mod' "\end{tablenotes}"
+			}	
+		}	
 		writeln `using_mod' "\end{threeparttable}"
 		writeln `using_mod' "\end{adjustbox}"
 		writeln `using_mod' "\end{center}"
@@ -95,12 +112,11 @@ program define textablefoot
 				writeln `using_mod' "`shortnotes'."
 				writeln `using_mod' "\end{tablenotes}"
 			}
-			else if "`notes'"!=""&"`shortnotes'"==""{
+			else if "`shortnotes'"==""&"`notes'"!=""{
 				writeln `using_mod' "\begin{tablenotes}[Notes]"
 				writeln `using_mod' "`notes'."
 				writeln `using_mod' "\end{tablenotes}"
-			}
-			
+			}	
 		}
 		writeln `using_mod' "\end{table}"
 	}
