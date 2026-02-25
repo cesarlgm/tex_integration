@@ -19,9 +19,6 @@ program define textablefoot
 	*notes just adds the string passed to it as a table note
 	syntax using/, [notes(str)  SHORTnotes(str) Fontsize(str) NODate dofile(str) LANDscape SCHeme(str) SLide Mod]
 	
-	di as result "`shortnotes'"
-	di as result "`notes'"
-	di as result "`slide'"
 
 	local using_name= "`using'"
 
