@@ -119,7 +119,7 @@ program define textablefoot
 	}
 
 	if "`landscape'"!=""{ 
-		writeln `using_mod' "\end{landscape}"
+		writeln `using_mod' "\end{sidewaystable}"
 	}
 
 end

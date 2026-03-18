@@ -158,7 +158,7 @@ program define textablehead, rclass
 
 	*I start writting the table header
 	if  "`landscape'"!=""{
-		writeln "`using_mod'" "\begin{landscape}"
+		writeln "`using_mod'" "\begin{sidewaystable}"
 	}
 
 	if "`scheme'"!="aea" {
