@@ -17,7 +17,7 @@ program define latexfigure
 	*path:			figure path relative to latex file.
 	*figlab:		labels for subfigures in latex file.
 	*note:			note to include, if any.
-	syntax using/ ,  path(str) figurelist(str) [rowsize(str) title(str) key(str) subkey(str asis) ///
+	syntax using/ ,  figurelist(str) [path(str) rowsize(str) title(str) key(str) subkey(str asis) ///
 		figlab(str asis) note(str) SHORTnote(str) dofile(str) cont NODate SLide aea LANDscape width(str)]
 	
 
@@ -59,7 +59,12 @@ program define latexfigure
 	}
 
 	if `nfig'==1 {
-		local figurepath="`path'"+"/"+"`figurelist'"
+		if "`path'"!=""{
+			local figurepath="`path'"+"/"+"`figurelist'"
+		}
+		else {
+			local figurepath="`figurelist'"
+		}
 		local graphcode="\includegraphics[width=`width'\textwidth]{`figurepath'}"
 	}
 	else if `nfig'>1 {
