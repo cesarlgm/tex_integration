@@ -15,5 +15,7 @@ f textablehead.ado
 f textablehead.sthlp 
 f write_summ_stats.ado 
 f writeln.ado
+f startfile.ado 
+f startfile.sthlp 
 f writelntc.ado
 f writetext.ado
